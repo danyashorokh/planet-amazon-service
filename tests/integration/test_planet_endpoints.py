@@ -9,7 +9,7 @@ def test_conditions_list(client: TestClient):
     Args:
         client: TestClient - test client.
     """
-    response = client.get('/planet/conditions')
+    response = client.get('/planet/all_conditions')
     assert response.status_code == HTTPStatus.OK
 
     conditions = response.json()['conditions']
