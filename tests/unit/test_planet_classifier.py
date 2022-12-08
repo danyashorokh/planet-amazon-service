@@ -26,7 +26,7 @@ def test_prob_less_or_equal_to_one(app_container: AppContainer, sample_image_np:
     """
     planet_classifier = app_container.planet_classifier()
     probs = planet_classifier.predict_proba(sample_image_np)
-    for prob in probs:
+    for prob in probs.values():
         assert prob <= 1
         assert prob >= 0
 

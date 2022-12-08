@@ -52,6 +52,6 @@ def test_predict_proba(client: TestClient, sample_image_bytes: bytes):
 
     probs = response.json()
 
-    for prob in probs['conditions']:
+    for prob in probs['conditions'].values():
         assert prob <= 1
         assert prob >= 0
