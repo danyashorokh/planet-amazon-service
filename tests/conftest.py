@@ -8,7 +8,7 @@ from omegaconf import OmegaConf
 
 from app import set_routers
 from src.containers.containers import AppContainer
-from src.routes import weather as weather_routes
+from src.routes import planet as planet_routes
 
 TESTS_DIR = os.path.dirname(__file__)
 

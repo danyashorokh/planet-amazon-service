@@ -39,7 +39,6 @@ generate_coverage_report:
 lint:
 	flake8 src/
 
-
 .PHONY: build
 build:
 	docker build -f Dockerfile . --force-rm=true -t $(DOCKER_IMAGE):$(DOCKER_TAG)
@@ -60,7 +59,6 @@ deploy:
 destroy:
 	ansible-playbook -i deploy/ansible/inventory.ini deploy/ansible/destroy.yml \
 		-e host=$(DEPLOY_HOST)
-
 
 .PHONY: init_dvc
 init_dvc:
