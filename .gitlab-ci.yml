@@ -12,12 +12,11 @@ before_script:
 after_script:
     - rm -f ~/.ssh/id_rsa
 
-
 stages:
   - lint
   - tests
   - build
-#  - deploy
+  - deploy
 
 lint:
     stage: lint
@@ -59,22 +58,22 @@ build_image:
 
   when: manual
 
-#deploy:
-#  stage: deploy
-#  variables:
-#    ANSIBLE_HOST_KEY_CHECKING: "false"
-#  script:
-#    - python3 -m pip install ansible==6.0.0
-#    - make deploy DOCKER_IMAGE=${DOCKER_IMAGE} DOCKER_TAG=${DOCKER_TAG}
-#
-#  when: manual
-#
-#destroy:
-#  stage: deploy
-#  variables:
-#    ANSIBLE_HOST_KEY_CHECKING: "false"
-#  script:
-#    - python3 -m pip install ansible==6.0.0
-#    - make destroy
-#
-#  when: manual
+deploy:
+  stage: deploy
+  variables:
+    ANSIBLE_HOST_KEY_CHECKING: "false"
+  script:
+    - python3 -m pip install ansible==6.0.0
+    - make deploy DOCKER_IMAGE=${DOCKER_IMAGE} DOCKER_TAG=${DOCKER_TAG}
+
+  when: manual
+
+destroy:
+  stage: deploy
+  variables:
+    ANSIBLE_HOST_KEY_CHECKING: "false"
+  script:
+    - python3 -m pip install ansible==6.0.0
+    - make destroy
+
+  when: manual
