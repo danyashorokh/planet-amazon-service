@@ -35,4 +35,4 @@ def predict_proba(
     service: PlanetClassifier = Depends(Provide[AppContainer.planet_classifier]),
 ):
     img = cv2.imdecode(np.frombuffer(image, np.uint8), cv2.IMREAD_COLOR)
-    return service.predict_proba(img)
+    return {'conditions': service.predict_proba(img)}

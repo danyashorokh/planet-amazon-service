@@ -6,6 +6,8 @@ from src.containers.containers import AppContainer
 from src.routes.routers import router as app_router
 from src.routes import planet as planet_routes
 
+PORT = 1024
+
 
 def create_app() -> FastAPI:
     container = AppContainer()
@@ -25,4 +27,4 @@ def set_routers(app: FastAPI):
 app = create_app()
 
 if __name__ == '__main__':
-    uvicorn.run(app, port=1024, host='0.0.0.0')
+    uvicorn.run(app, port=PORT, host='0.0.0.0')
