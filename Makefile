@@ -1,4 +1,4 @@
-APP_PORT := 1024
+APP_PORT := 5000
 DOCKER_TAG := latest
 DOCKER_IMAGE := planet_amazon
 
