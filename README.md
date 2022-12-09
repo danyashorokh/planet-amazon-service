@@ -1,40 +1,105 @@
-### Настройка окружения
+# Service Part 
 
-Сначала создать и активировать venv:
+Multilabel classification with planet-understanding-the-amazon-from-space [task](https://www.kaggle.com/competitions/planet-understanding-the-amazon-from-space/overview).
 
-```bash
-python3 -m venv venv
-. venv/bin/activate
+![](./assets/examples.png)
+
+Service link: [91.206.15.25:1024](91.206.15.25:1024)
+
+## API
+
+The API is implemented on the HTTP protocol with the transfer of information in JSON format to
+based on REST principles.
+
+Read documentation [91.206.15.25:1024/docs](91.206.15.25:1024/docs) 
+
+## Requests examples
+
+#### 1. Get all planet image conditions
+
+###### Request
+```http request
+GET planet/all_conditions
+```
+###### Response
+
+```http request
+200 OK
 ```
 
-Дальше поставить зависимости:
-
-```bash
-make install
+```json5
+{
+  "conditions": [ <list of all conditions> ],
+}
 ```
-### Команды
 
-#### Подготовка
-* `make install` - установка библиотек
-* `make download_weights` - скачать веса моделек
+#### 2. Image conditions classes prediction
 
-#### Запуск сервиса
-* `make run_app` - запустить сервис. Можно с аргументом `APP_PORT`
+###### Request
+```http request
+POST planet/predict/image
 
-#### Сборка образа
-* `make build` - собрать образ. Можно с аргументами `DOCKER_TAG`, `DOCKER_IMAGE`
+Content-Type: image/jpeg
+<binary-code-of-jpeg-encoded-image-here>
+```
+###### Response
 
-#### Статический анализ
-* `make lint` - запуск линтеров
+```http request
+200 OK
+```
 
-#### Тестирование
-* `make run_unit_tests` - запуск юнит-тестов
-* `make run_integration_tests` - запуск интеграционных тестов
-* `make run_all_tests` - запуск всех тестов
-* `make generate_coverage_report` - сгенерировать coverage-отчет
+```json5
+{
+  "conditions": [
+    "primary",
+    "clean"
+  ]
+}
+```
 
+#### 3. Image conditions probabilities prediction
 
-### Ссылка на материалы
-* [Презентация](https://docs.google.com/presentation/d/1NS4lweLW6QsA56rIzd4uBOuXMAx3iUerdYLeSI-Rmro/edit?usp=sharing)
-* [GitLab CI/CD](https://docs.gitlab.com/ee/ci/)
-* [Ansible](https://docs.ansible.com/)
+###### Request
+```http request
+POST planet/predict_proba/image
+
+Content-Type: image/jpeg
+<binary-code-of-jpeg-encoded-image-here>
+```
+###### Response
+
+```http request
+200 OK
+```
+
+```json5
+{
+  "conditions": {
+    'condition1': probability1,
+    ...
+    'conditionN': probabilityN
+  }
+}
+```
+
+## Service launch
+
+##### Steps to launch service locally
+1. Run ```make init_dvc``` + ```make download_weights```. to download current model weights
+2. Simple launch with python  
+```python3 -m uvicorn app:app --host='0.0.0.0' --port=$(APP_PORT)```, 
+where ```APP_PORT``` - your port
+3. Launch with docker (build Dockerfile)
+<br />```make build DOCKER_IMAGE=$(DOCKER_IMAGE) DOCKER_TAG=$(DOCKER_TAG)``` <br />DOCKER_IMAGE - docker image name, DOCKER_TAG - docker image tag
+<br />
+```
+    docker run \
+    -d \
+    -p 0.0.0.0:5000 \
+    --name=$(CONTAINER_NAME) \
+    ${DOCKER_IMAGE}
+```
+CONTAINER_NAME - container name
+
+## Tests launch
+ ```PYTHONPATH=. pytest .```
