@@ -24,7 +24,6 @@ def set_routers(app: FastAPI):
     app.include_router(app_router, prefix='/planet', tags=['planet'])
 
 
-app = create_app()
-
 if __name__ == '__main__':
+    app = create_app()
     uvicorn.run(app, port=PORT, host='0.0.0.0')
