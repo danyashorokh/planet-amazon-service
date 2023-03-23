@@ -8,7 +8,7 @@ DVC_REMOTE_NAME := storage
 
 .PHONY: run_app
 run_app:
-	python3 -m uvicorn app:app --host='0.0.0.0' --port=$(APP_PORT)
+	python3 -m uvicorn app:create_app --host='0.0.0.0' --port=$(APP_PORT)
 
 .PHONY: install
 install:

@@ -6,7 +6,7 @@ from src.services.planet_classifier import PlanetClassifier
 class AppContainer(containers.DeclarativeContainer):
     config = providers.Configuration()
 
-    planet_classifier = providers.Factory(
+    planet_classifier = providers.Singleton(
         PlanetClassifier,
         config=config.services.planet_classifier,
     )

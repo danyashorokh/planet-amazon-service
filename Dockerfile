@@ -17,6 +17,6 @@ WORKDIR /planet_service
 
 COPY . /planet_service/
 
-RUN make install
+RUN pip3 --no-cache-dir install -r  requirements.txt
 
 CMD make run_app
